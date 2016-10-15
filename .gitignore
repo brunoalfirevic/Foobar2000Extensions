@@ -3,6 +3,7 @@
 *.pyc
 
 !.gitignore
+!readme.txt
 
 !/foobar_py
 !/foobar_js
