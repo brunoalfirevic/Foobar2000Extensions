@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+        <script type="text/javascript">
+            //var defaultText = "Tango Junta Split";
+            var defaultText = "Tango Akademija Split";
+        </script>
+
+        <script src="jquery-2.1.1.min.js"></script>
+
+        <script type="text/javascript">
+            (function($) {
+                 $.fn.textfill = function(maxFontPixels) {
+                    var fontSize = maxFontPixels;
+                    var ourText = $('*:visible:first', this);
+                    ourText.css('font-size', 10);
+
+                    var maxHeight = $(this).height();
+                    var maxWidth = $(this).width();
+                    var textHeight;
+                    var textWidth;
+                    
+                    do {
+                        ourText.css('font-size', fontSize);
+                        textHeight = ourText.outerHeight(true);
+                        textWidth = ourText.outerWidth(true);
+                        fontSize = fontSize - 1;
+                    } while ((textHeight > maxHeight || textWidth > maxWidth) && fontSize > 3);
+                    return this;
+                }
+            })(jQuery);
+
+            var lastText = "";
+
+            function displayText(text) {
+                if (text !== lastText) {
+                    $('.text').html(text);
+                    $('.cell').textfill(1000);
+                    lastText = text;
+                }
+            }
+
+            function getTextToDisplay(data) {
+                if (!data || !data.nowPlaying || !data.showNowPlaying) {
+                    return defaultText;
+                }
+                
+                if (data.nowPlaying.genre === 'Cortina') {
+                    return data.nowPlaying.genre;
+                }
+
+                return data.nowPlaying.artist
+                    .replace(" De ", " De&nbsp")
+                    .replace(" de ", " de&nbsp")
+                    .replace(" Di ", " Di&nbsp")
+                    .replace(" di ", " di&nbsp");
+            }
+
+            function fetchNowPlayingAndDisplay() {
+                $.ajax({url: 'api/nowPlaying', cache: false, dataType: 'json'}).done(function(data) {
+                    try {
+                        displayText(getTextToDisplay(data));
+                    } catch(e) {
+                        displayText(defaultText);
+                    }
+                }).fail(function() {
+                    displayText(defaultText);
+                }).always(function() {
+                    setTimeout(fetchNowPlayingAndDisplay, 2000);
+                });
+            }
+
+            $(document).ready(function() {
+                fetchNowPlayingAndDisplay();
+            });
+        </script>
+
+		<title>Tango - Now Playing</title>
+
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <style>
+            html, body, div, span, applet, object, iframe,
+            h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+            a, abbr, acronym, address, big, cite, code,
+            del, dfn, em, img, ins, kbd, q, s, samp,
+            small, strike, strong, sub, sup, tt, var,
+            b, u, i, center,
+            dl, dt, dd, ol, ul, li,
+            fieldset, form, label, legend,
+            table, caption, tbody, tfoot, thead, tr, th, td,
+            article, aside, canvas, details, embed, 
+            figure, figcaption, footer, header, hgroup, 
+            menu, nav, output, ruby, section, summary,
+            time, mark, audio, video {
+                margin: 0;
+                padding: 0;
+                border: 0;
+                font-size: 100%;
+                font: inherit;
+                vertical-align: baseline;
+            }
+            /* HTML5 display-role reset for older browsers */
+            article, aside, details, figcaption, figure, 
+            footer, header, hgroup, menu, nav, section {
+                display: block;
+            }
+            body {
+                line-height: 1;
+            }
+            ol, ul {
+                list-style: none;
+            }
+            blockquote, q {
+                quotes: none;
+            }
+            blockquote:before, blockquote:after,
+            q:before, q:after {
+                content: '';
+                content: none;
+            }
+            table {
+                border-collapse: collapse;
+                border-spacing: 0;
+            }
+        </style>
+
+		<style>
+            html, body, .container {
+                width: 100%;
+                height: 100%;
+                background-color: black;
+            }
+            .container {
+                text-align: center;
+                display: table;
+            }
+            .cell {
+                display: table-cell;
+                vertical-align: middle;
+            }
+            .text {
+                font-family: Times New Roman;
+                color: white;
+
+                line-height: 1.1em;
+                top: -0.1em;
+                position:relative;
+
+                margin-top: 0px;
+                margin-left: 10px;
+                margin-right: 10px;
+                margin-bottom: 0px;
+            }
+		</style>
+	</head>
+
+	<body>
+        <div class="container">
+            <div class="cell">
+                <span class="text"></span>
+            </div>
+        </div>
+	</body>
+</html>
+

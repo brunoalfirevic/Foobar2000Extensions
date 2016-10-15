@@ -1,0 +1,8 @@
+/*
+
+*.pyc
+
+!.gitignore
+
+!/foobar_py
+!/foobar_js
