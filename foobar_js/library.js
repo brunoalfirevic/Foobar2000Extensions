@@ -307,6 +307,8 @@ function contains(str) {
             return true;
         }
     }
+
+    return false;
 }
 
 function replace(str, replacement) {
@@ -324,7 +326,7 @@ function replace(str, replacement) {
 }
 
 function is_dj_foobar() {
-    return window.GetColorDUI(ColorTypeDUI.highlight) != -32768;
+    return contains(fb.ComponentPath, "\\foobar2000dj\\");
 }
 
 function set_config(name, value) {

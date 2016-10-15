@@ -114,6 +114,9 @@ var Menu = new Button(px(36), px(30), Font, {normal : fb.ComponentPath + "sample
     popupMenu.appendSeparator();
 
     popupMenu.appendMenuItem("Test", function() {
+        fb.trace("Dj foobar: " + is_dj_foobar());
+        return;
+
         var port = get_config("HttpServerPort");
         make_http_request("GET", "http://localhost:" + port + "/api/nowPlaying", function(req) {
             if (req.status == 200) {
