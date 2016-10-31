@@ -47,7 +47,6 @@ def installHook(hookType, hookCallbackPtr):
     currentThreadId = threading.current_thread().ident
     hookId = windll.user32.SetWindowsHookExA(hookType, hookCallbackPtr, win32api.GetModuleHandle(None), currentThreadId)
 
-    # Register to remove the hook when the interpreter exits. Unfortunately a# try/finally block doesn't seem to work here.
     atexit.register(windll.user32.UnhookWindowsHookEx, hookId)
 
     appendLog("Hook (type: " + str(hookType) + ") installed, hook id: " + str(hookId) + " for thread: " + str(currentThreadId))
