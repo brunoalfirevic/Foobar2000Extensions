@@ -57,7 +57,7 @@
             }
 
             function fetchNowPlayingAndDisplay() {
-                $.ajax({url: 'api/nowPlaying', cache: false, dataType: 'json'}).done(function(data) {
+                $.ajax({url: 'api/nowPlaying', cache: false, dataType: 'json', timeout: 5000}).done(function(data) {
                     try {
                         displayText(getTextToDisplay(data));
                     } catch(e) {
