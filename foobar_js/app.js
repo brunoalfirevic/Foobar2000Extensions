@@ -869,11 +869,23 @@ function AdditionalSelectionInfoPanel(w, h, font) {
         drawDatum("Tag type:", this.selectionInfo.tag_type, 1);
 
         if (this.selectionInfo.track_replay_gain) {
-            drawDatum("Track gain:", this.selectionInfo.track_replay_gain + ", " + this.selectionInfo.track_replay_peak + " peak");
+            var track_replay_gain_text = this.selectionInfo.track_replay_gain;
+            
+            if (this.selectionInfo.track_replay_peak) {
+                track_replay_gain_text += ", " + this.selectionInfo.track_replay_peak + " peak";
+            }
+
+            drawDatum("Track gain:", track_replay_gain_text);
         }
 
         if (this.selectionInfo.album_replay_gain) {
-            drawDatum("Album gain:", this.selectionInfo.album_replay_gain + ", " + this.selectionInfo.album_replay_peak + " peak");
+            var album_replay_gain_text = this.selectionInfo.album_replay_gain;
+
+            if (this.selectionInfo.album_replay_peak) {
+                album_replay_gain_text += ", " + this.selectionInfo.album_replay_peak + " peak";
+            }
+
+            drawDatum("Album gain:", album_replay_gain_text);
         }
 
         function drawDatum(label, datum) {
