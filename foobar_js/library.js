@@ -28,6 +28,11 @@ function px(value) {
 // Path manipulation  ////
 /////////////////////////
 
+
+function set_current_directory(dir) {
+    WshShell.CurrentDirectory = dir;
+}
+
 function add_to_path(folder) {
     var process_environment = WshShell.Environment("Process");
     var existing_path = process_environment("PATH");
